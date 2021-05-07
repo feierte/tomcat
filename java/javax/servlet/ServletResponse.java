@@ -52,6 +52,9 @@ import java.util.Locale;
  * define profiles of MIME, and those standards are still evolving.
  *
  * @see ServletOutputStream
+ *
+ * @apiNote ServletResponse接口表示一个Servlet响应，在调用Servlet的Service( )方法前，Servlet容器会先创建一个ServletResponse对象，
+ * 并把它作为第二个参数传给Service( )方法。ServletResponse隐藏了向浏览器发送响应的复杂过程。
  */
 public interface ServletResponse {
 
@@ -143,6 +146,14 @@ public interface ServletResponse {
      *                if an input or output exception occurred
      * @see #getOutputStream
      * @see #setCharacterEncoding
+     *
+     * @apiNote 它返回了一个可以向客户端发送文本的的Java.io.PrintWriter对象。
+     * 注意：默认情况下，PrintWriter对象使用ISO-8859-1编码（该编码在输入中文时会发生乱码）。
+     *
+     * <p>在向客户端发送响应时，大多数都是使用该对象向客户端发送HTML。
+     * 还有一个方法也可以用来向浏览器发送数据，它就是getOutputStream()，从名字就可以看出这是一个二进制流对象，因此这个方法是用来发送二进制数据的。
+     * <p>在发送任何HTML之前，应该先调用setContentType（）方法，设置响应的内容类型，并将“text/html”作为一个参数传入，
+     * 这是在告诉浏览器响应的内容类型为HTML，需要以HTML的方法解释响应内容而不是普通的文本，或者也可以加上“charset=UTF-8”改变响应的编码方式以防止发生中文乱码现象。
      */
     public PrintWriter getWriter() throws IOException;
 

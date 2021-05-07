@@ -31,6 +31,7 @@ public interface ServletConfig {
      * will be the servlet's class name.
      *
      * @return the name of the servlet instance
+     * @apiNote 获取在web.xml中配置的name值（Servlet的名称）
      */
     public String getServletName();
 

@@ -114,6 +114,7 @@ public interface Servlet {
      *         servlet
      *
      * @see #init
+     * @apiNote 这个方法会返回由Servlet容器传给init()方法的ServletConfig对象。
      */
     public ServletConfig getServletConfig();
 

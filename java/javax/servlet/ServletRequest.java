@@ -34,6 +34,11 @@ import java.util.Map;
  * {@link javax.servlet.http.HttpServletRequest}.
  *
  * @see javax.servlet.http.HttpServletRequest
+ *
+ * @apiNote
+ *
+ * <p> Servlet容器对于接受到的每一个Http请求，都会创建一个ServletRequest对象，并把这个对象传递给Servlet的Sevice( )方法。
+ * 其中，ServletRequest对象内封装了关于这个请求的许多详细信息
  */
 public interface ServletRequest {
 
@@ -113,6 +118,8 @@ public interface ServletRequest {
      *
      * @return an integer containing the length of the request body or -1 if the
      *         length is not known or is greater than {@link Integer#MAX_VALUE}
+     *
+     * @apiNote 返回请求主体的字节数
      */
     public int getContentLength();
 

@@ -48,6 +48,13 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  *
  * @see Servlet#getServletConfig
  * @see ServletConfig#getServletContext
+ *
+ * @apiNote  ServletContext对象表示Servlet应用程序。每个Web应用程序都只有一个ServletContext对象。
+ * 在将一个应用程序同时部署到多个容器的分布式环境中，每台Java虚拟机上的Web应用都会有一个ServletContext对象。
+ *
+ * <p>那么为什么要存在一个ServletContext对象呢？
+ * 存在肯定是有它的道理，因为有了ServletContext对象，就可以共享从应用程序中的所有资料处访问到的信息，
+ * 并且可以动态注册Web对象。前者将对象保存在ServletContext中的一个内部Map中。保存在ServletContext中的对象被称作属性。
  */
 public interface ServletContext {
 
