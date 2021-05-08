@@ -279,6 +279,8 @@ public interface HttpServletRequest extends ServletRequest {
      * @return a <code>String</code> containing the query string or
      *         <code>null</code> if the URL contains no query string. The value
      *         is not decoded by the container.
+     *
+     * @apiNote get提交url地址 后面跟的参数字符串
      */
     public String getQueryString();
 

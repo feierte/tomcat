@@ -171,6 +171,16 @@ public abstract class GenericServlet implements Servlet, ServletConfig,
      * @exception ServletException
      *                if an exception occurs that interrupts the servlet's
      *                normal operation
+     *
+     * @apiNote
+     * <p>在第一个带参数的init(ServletConfig)方法中就已经把ServletConfig对象传入并且通过引用保存好了，完成了Servlet的初始化过程，
+     * 那么为什么后面还要加上一个不带任何参数的init（）方法呢？这不是多此一举吗？
+     *  1、当然不是多此一举了，存在必然有存在它的道理。我们知道，抽象类是无法直接产生实例的，需要另一个类去继承这个抽象类，那么就会发生方法覆盖的问题，
+     *  如果在类中覆盖了GenericServlet抽象类的init（）方法，那么程序员就必须手动的去维护ServletConfig对象了，
+     *  还得调用super.init(servletConfig）方法去调用父类GenericServlet的初始化方法来保存ServletConfig对象，这样会给程序员带来很大的麻烦。
+     *  GenericServlet提供的第二个不带参数的init( )方法，就是为了解决上述问题的。
+     *  2、 这个不带参数的init（）方法，是在ServletConfig对象被赋给ServletConfig引用后，由第一个带参数的init(ServletConfig servletconfig)方法调用的，
+     *  那么这意味着，当程序员如果需要覆盖这个GenericServlet的初始化方法，则只需要覆盖那个不带参数的init( )方法就好了，此时，servletConfig对象仍然有GenericServlet保存着。
      */
     public void init() throws ServletException {
         // NOOP by default

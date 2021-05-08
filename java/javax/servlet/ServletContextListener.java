@@ -26,8 +26,9 @@ import java.util.EventListener;
  *
  * @see ServletContextEvent
  * @since v 2.3
+ *
+ * @apiNote Servlet全局监听器
  */
-
 public interface ServletContextListener extends EventListener {
 
     /**

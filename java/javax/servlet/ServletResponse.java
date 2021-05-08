@@ -117,6 +117,10 @@ public interface ServletResponse {
      * @exception IOException
      *                if an input or output exception occurred
      * @see #getWriter
+     *
+     * @apiNote 获得字节流，通过该字节流的write(byte[] bytes)可以向response缓冲区中写入字节，再由Tomcat服务器将字节内容组成Http响应返回给浏览器。
+     *
+     * <p>注意：虽然response对象的getOutSream（）和getWriter（）方法都可以发送响应消息体，但是他们之间相互排斥，不可以同时使用，否则会发生异常。
      */
     public ServletOutputStream getOutputStream() throws IOException;
 
@@ -149,7 +153,9 @@ public interface ServletResponse {
      *
      * @apiNote 它返回了一个可以向客户端发送文本的的Java.io.PrintWriter对象。
      * 注意：默认情况下，PrintWriter对象使用ISO-8859-1编码（该编码在输入中文时会发生乱码）。
+     * 注意：虽然response对象的getOutSream（）和getWriter（）方法都可以发送响应消息体，但是他们之间相互排斥，不可以同时使用，否则会发生异常。
      *
+     * <p>获得字符流，通过字符流的write(String s)方法可以将字符串设置到response   缓冲区中，随后Tomcat会将response缓冲区中的内容组装成Http响应返回给浏览器端。
      * <p>在向客户端发送响应时，大多数都是使用该对象向客户端发送HTML。
      * 还有一个方法也可以用来向浏览器发送数据，它就是getOutputStream()，从名字就可以看出这是一个二进制流对象，因此这个方法是用来发送二进制数据的。
      * <p>在发送任何HTML之前，应该先调用setContentType（）方法，设置响应的内容类型，并将“text/html”作为一个参数传入，

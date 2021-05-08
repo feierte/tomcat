@@ -32,6 +32,9 @@ import javax.servlet.ServletResponse;
  * passes it as an argument to the servlet's service methods (<code>doGet</code>, <code>doPost</code>, etc).
  *
  * @see javax.servlet.ServletResponse
+ *
+ * @apiNote 继承自ServletResponse接口，专门用来封装HTTP响应消息。
+ * 由于HTTP请求消息分为状态行，响应消息头，响应消息体三部分，因此，在HttpServletResponse接口中定义了向客户端发送响应状态码，响应消息头，响应消息体的方法。
  */
 public interface HttpServletResponse extends ServletResponse {
 
@@ -41,6 +44,8 @@ public interface HttpServletResponse extends ServletResponse {
      *
      * @param cookie
      *            the Cookie to return to the client
+     *
+     * @apiNote 给响应添加一个cookie
      */
     public void addCookie(Cookie cookie);
 

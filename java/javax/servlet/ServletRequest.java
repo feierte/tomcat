@@ -107,6 +107,11 @@ public interface ServletRequest {
      *            encoding.
      * @throws java.io.UnsupportedEncodingException
      *             if this is not a valid encoding
+     *
+     * @apiNote 设置请求的字符编码
+     *
+     * <p>解决post提交方式的乱码：request.setCharacterEncoding("UTF-8");
+     *  解决get提交的方式的乱码：parameter = newString(parameter.getbytes("iso8859-1"),"utf-8");
      */
     public void setCharacterEncoding(String env)
             throws java.io.UnsupportedEncodingException;
@@ -183,6 +188,8 @@ public interface ServletRequest {
      * @return a <code>String</code> representing the single value of the
      *         parameter
      * @see #getParameterValues
+     *
+     * @apiNote 获取HTTP协议请求体中的参数（Get的请求参数也可获取到）
      */
     public String getParameter(String name);
 
