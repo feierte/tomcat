@@ -936,11 +936,11 @@
   <target name="compile-prepare">
     <!-- Add the builtin catalina.properties -->
     <copy todir="java/org/apache/catalina/startup"
-          file="conf/catalina.properties" encoding="ISO-8859-1">
+          file="catalina-home/conf/catalina.properties" encoding="ISO-8859-1">
       <filterset refid="version.filters"/>
     </copy>
     <!-- Copy jdbc-pool documentation -->
-    <copy tofile="webapps/docs/jdbc-pool.xml"
+    <copy tofile="catalina-home/webapps/docs/jdbc-pool.xml"
           file="${tomcat.jdbc.dir}/doc/jdbc-pool.xml" encoding="UTF-8">
       <filterset>
         <filter token="TOMCAT_PROJECT_DEST" value="project.xml"/>
@@ -1258,24 +1258,24 @@
 
     <!-- Validation of changelog.xml -->
     <xmlvalidate
-      file="webapps/docs/changelog.xml"
+      file="catalina-home/webapps/docs/changelog.xml"
     />
 
     <copy todir="${tomcat.build}/webapps">
-      <fileset dir="webapps">
+      <fileset dir="catalina-home/webapps">
         <include name="docs/images/**"/>
         <include name="docs/WEB-INF/**"/>
         <include name="docs/appdev/*.txt"/>
         <include name="docs/appdev/sample/**"/>
       </fileset>
-      <fileset dir="webapps">
+      <fileset dir="catalina-home/webapps">
         <include name="docs/architecture/**"/>
         <exclude name="docs/architecture/*.xml"/>
       </fileset>
     </copy>
     <copy todir="${tomcat.build}/webapps" encoding="UTF-8">
       <filterset refid="version.filters"/>
-      <fileset dir="webapps">
+      <fileset dir="catalina-home/webapps">
         <include name="docs/**/*.html"/>
       </fileset>
     </copy>
@@ -1293,10 +1293,10 @@
             file="java/org/apache/tomcat/util/modeler/mbeans-descriptors.dtd" />
 
     <copy   tofile="${tomcat.build}/webapps/docs/appdev/sample/build.xml"
-              file="webapps/docs/appdev/build.xml.txt"/>
+              file="catalina-home/webapps/docs/appdev/build.xml.txt"/>
 
     <!-- XSL processing -->
-    <xslt basedir="webapps/docs"
+    <xslt basedir="catalina-home/webapps/docs"
            destdir="${tomcat.build}/webapps/docs"
          extension=".html"
              style="webapps/docs/tomcat-docs.xsl"
@@ -1313,7 +1313,7 @@
       <param name="build-date-iso-8601" expression="${today-iso-8601}"/>
       <param name="year" expression="${year}"/>
     </xslt>
-    <xslt basedir="webapps/docs/appdev"
+    <xslt basedir="catalina-home/webapps/docs/appdev"
            destdir="${tomcat.build}/webapps/docs/appdev"
          extension=".html"
              style="webapps/docs/tomcat-docs.xsl"
@@ -1330,7 +1330,7 @@
       <param name="build-date-iso-8601" expression="${today-iso-8601}"/>
       <param name="year" expression="${year}"/>
     </xslt>
-    <xslt basedir="webapps/docs/config"
+    <xslt basedir="catalina-home/webapps/docs/config"
            destdir="${tomcat.build}/webapps/docs/config"
          extension=".html"
              style="webapps/docs/tomcat-docs.xsl"
@@ -1347,7 +1347,7 @@
       <param name="build-date-iso-8601" expression="${today-iso-8601}"/>
       <param name="year" expression="${year}"/>
     </xslt>
-    <xslt basedir="webapps/docs/architecture"
+    <xslt basedir="catalina-home/webapps/docs/architecture"
            destdir="${tomcat.build}/webapps/docs/architecture"
          extension=".html"
              style="webapps/docs/tomcat-docs.xsl"
@@ -1365,7 +1365,7 @@
       <param name="year" expression="${year}"/>
     </xslt>
 
-    <xslt basedir="webapps/docs/tribes"
+    <xslt basedir="catalina-home/webapps/docs/tribes"
                destdir="${tomcat.build}/webapps/docs/tribes"
              extension=".html"
                  style="webapps/docs/tomcat-docs.xsl"
@@ -1410,7 +1410,7 @@
     <!-- Copy static resource files -->
     <copy todir="${tomcat.build}/conf" encoding="ISO-8859-1">
       <filterset refid="version.filters"/>
-      <fileset dir="conf">
+      <fileset dir="catalina-home/conf">
         <include name="**/*.policy"/>
         <include name="**/*.xml"/>
         <include name="**/*.xsd"/>
@@ -1420,7 +1420,7 @@
 
     <!-- Copy other regular webapps -->
     <copy todir="${tomcat.build}/webapps">
-      <fileset dir="webapps">
+      <fileset dir="catalina-home/webapps">
         <include name="ROOT/**"/>
         <exclude name="ROOT/index.jsp"/>
         <include name="examples/**"/>
@@ -1430,7 +1430,7 @@
     </copy>
     <copy todir="${tomcat.build}/webapps" encoding="UTF-8">
       <filterset refid="version.filters" />
-      <fileset dir="webapps">
+      <fileset dir="catalina-home/webapps">
         <include name="ROOT/index.jsp"/>
       </fileset>
     </copy>
@@ -1484,7 +1484,7 @@
     <!-- Convert the message files of the examples webapp from UTF-8 to ASCII.
     This can be removed after upgrading to Java 9+ as the minimum JRE and
     specifying the encoding when loading the ResourceBundles -->
-    <native2ascii src="webapps/examples/WEB-INF/classes"
+    <native2ascii src="catalina-home/webapps/examples/WEB-INF/classes"
                   dest="${tomcat.build}/webapps/examples/WEB-INF/classes"
                   includes="**/LocalStrings*.properties"
                   encoding="UTF-8"/>
@@ -1524,24 +1524,24 @@
              classpath="${tomcat.classes}" />
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsp2/simpletag">
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples">
         <include name="BookBean.java"/>
       </fileset>
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
         <include name="FindBookSimpleTag.java"/>
         <include name="RepeatSimpleTag.java"/>
         <include name="HelloWorldSimpleTag.java"/>
       </fileset>
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples/el">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples/el">
         <include name="Functions.java"/>
       </fileset>
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsp2/jspattribute">
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples">
         <include name="FooBean.java"/>
       </fileset>
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
         <include name="ShuffleSimpleTag.java"/>
         <include name="TileSimpleTag.java"/>
         <include name="HelloWorldSimpleTag.java"/>
@@ -1549,7 +1549,7 @@
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/cal">
-      <fileset dir="webapps/examples/WEB-INF/classes/cal">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/cal">
         <include name="Entries.java"/>
         <include name="Entry.java"/>
         <include name="JspCalendar.java"/>
@@ -1558,37 +1558,37 @@
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsptoserv">
-      <fileset dir="webapps/examples/WEB-INF/classes">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes">
         <include name="ServletToJsp.java"/>
       </fileset>
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsp2/el">
-      <fileset dir="webapps/examples/WEB-INF/classes/examples">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/examples">
         <include name="ValuesTag.java"/>
       </fileset>
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples">
         <include name="ValuesBean.java"/>
       </fileset>
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples/el">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples/el">
         <include name="Functions.java"/>
       </fileset>
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsp2/misc">
-      <fileset dir="webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/classes/jsp2/examples/simpletag">
         <include name="EchoAttributesTag.java"/>
       </fileset>
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples/jsp/jsp2/tagfiles">
-      <fileset dir="webapps/examples/WEB-INF/tags">
+      <fileset dir="catalina-home/webapps/examples/WEB-INF/tags">
         <include name="**/*.tag" />
       </fileset>
     </txt2html>
 
     <txt2html todir="${tomcat.build}/webapps/examples">
-      <fileset dir="webapps/examples">
+      <fileset dir="catalina-home/webapps/examples">
         <include name="**/*.jsp" />
         <include name="**/*.jspx" />
         <include name="**/*.jspf" />
@@ -3045,7 +3045,7 @@ skip.installer property in build.properties" />
       <property name="tomcat.pool" value="${tomcat.pool}" />
     </ant>
     <!-- remove jdbc-pool documentation -->
-    <delete file="webapps/docs/jdbc-pool.xml"/>
+    <delete file="catalina-home/webapps/docs/jdbc-pool.xml"/>
   </target>
 
 

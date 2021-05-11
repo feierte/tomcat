@@ -296,19 +296,19 @@ public class JDTCompiler extends org.apache.jasper.compiler.Compiler {
             // Version format changed from Java 9 onwards.
             // Support old format that was used in EA implementation as well
             } else if(opt.equals("9") || opt.equals("1.9")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_9);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_9);
             } else if(opt.equals("10")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_10);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_10);
             } else if(opt.equals("11")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_11);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_11);
             } else if(opt.equals("12")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_12);
+                // settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_12);
             } else if(opt.equals("13")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_13);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_13);
             } else if(opt.equals("14")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_14);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_14);
             } else if(opt.equals("15")) {
-                settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_15);
+                //settings.put(CompilerOptions.OPTION_Source, CompilerOptions.VERSION_15);
             } else if(opt.equals("16")) {
                 // Constant not available in latest ECJ version shipped with
                 // Tomcat. May be supported in a snapshot build.
@@ -349,26 +349,26 @@ public class JDTCompiler extends org.apache.jasper.compiler.Compiler {
             // Version format changed from Java 9 onwards.
             // Support old format that was used in EA implementation as well
             } else if(opt.equals("9") || opt.equals("1.9")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_9);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_9);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_9);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_9);
             } else if(opt.equals("10")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_10);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_10);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_10);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_10);
             } else if(opt.equals("11")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_11);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_11);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_11);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_11);
             } else if(opt.equals("12")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_12);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_12);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_12);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_12);
             } else if(opt.equals("13")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_13);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_13);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_13);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_13);
             } else if(opt.equals("14")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_14);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_14);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_14);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_14);
             } else if(opt.equals("15")) {
-                settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_15);
-                settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_15);
+                //settings.put(CompilerOptions.OPTION_TargetPlatform, CompilerOptions.VERSION_15);
+                //settings.put(CompilerOptions.OPTION_Compliance, CompilerOptions.VERSION_15);
             } else if(opt.equals("16")) {
                 // Constant not available in latest ECJ version shipped with
                 // Tomcat. May be supported in a snapshot build.
