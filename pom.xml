@@ -5,12 +5,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tomcat</groupId>
-    <artifactId>Tomcat9.0.43</artifactId>
-    <name>Tomcat9.0.43</name>
-    <version>9.0.43</version>
+    <artifactId>Tomcat9.0.x</artifactId>
+    <name>Tomcat9.0.x</name>
+    <version>9.0.x</version>
 
     <build>
-        <finalName>Tomcat9.0.43</finalName>
+        <finalName>Tomcat9.0.x</finalName>
         <sourceDirectory>java</sourceDirectory>
         <resources>
             <resource>

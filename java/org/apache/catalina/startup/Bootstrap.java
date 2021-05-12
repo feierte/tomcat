@@ -56,19 +56,22 @@ public final class Bootstrap {
     private static volatile Bootstrap daemon = null;
 
     private static final File catalinaBaseFile;
+    // 表示catalina.home文件夹及下面的所有的文件对象
     private static final File catalinaHomeFile;
 
     private static final Pattern PATH_PATTERN = Pattern.compile("(\"[^\"]*\")|(([^,])*)");
 
+    // 主要作用初始化catalina.home和catalina.base路径
     static {
         // Will always be non-null
+        // user.dir：用户目录，这个就是当前代码所在的根目录
         String userDir = System.getProperty("user.dir");
 
         // Home first
         String home = System.getProperty(Constants.CATALINA_HOME_PROP);
         File homeFile = null;
 
-        if (home != null) {
+        if (home != null) { // 如果设置了catalina.home的文件路径
             File f = new File(home);
             try {
                 homeFile = f.getCanonicalFile();
@@ -77,6 +80,7 @@ public final class Bootstrap {
             }
         }
 
+        // 这里寻找是用户目录下是否存在BootStrap如果存在，就用这个目录作为catalina_home:
         if (homeFile == null) {
             // First fall-back. See if current directory is a bin directory
             // in a normal Tomcat install
@@ -85,6 +89,7 @@ public final class Bootstrap {
             if (bootstrapJar.exists()) {
                 File f = new File(userDir, "..");
                 try {
+                    // homeFile对象获取了home文件夹下面的所有的文件对象
                     homeFile = f.getCanonicalFile();
                 } catch (IOException ioe) {
                     homeFile = f.getAbsoluteFile();
@@ -92,6 +97,7 @@ public final class Bootstrap {
             }
         }
 
+        // 还是使用用户当前目录作为catalina_home
         if (homeFile == null) {
             // Second fall-back. Use current directory
             File f = new File(userDir);
@@ -102,11 +108,12 @@ public final class Bootstrap {
             }
         }
 
-        catalinaHomeFile = homeFile;
+        catalinaHomeFile = homeFile; // 最后把homeFile赋值给catalinaHome
         System.setProperty(
                 Constants.CATALINA_HOME_PROP, catalinaHomeFile.getPath());
 
         // Then base
+        // 设置catalina_base的文件路径和文件管理对象
         String base = System.getProperty(Constants.CATALINA_BASE_PROP);
         if (base == null) {
             catalinaBaseFile = catalinaHomeFile;
@@ -131,6 +138,15 @@ public final class Bootstrap {
      */
     private Object catalinaDaemon = null;
 
+    /**
+     * 在tomcat调用Bootstrap进行启动时会调用initClassLoaders创建3个ClassLoader，它们分别是commonLoader,catalinaLoader,sharedLoader，遵循双亲委派机制。
+     * commonLoader会根据tomcat的conf/catalina.properties中的配置加载tomcat自身的jar，然后将这个类加载器作为整个tomcat容器的父类加载器。
+     *
+     * commonLoader除了在initClassLoader处使用外并没有在其他地方使用，它是作为catalinaLoader和sharedLoader的父类加载器；
+     * catalinaLoader在init方法中被设置为当前线程的类加载器。
+     *
+     * sharedLoader类加载器作为参数调用了Catalina的setParentClassLoader方法，成为了整个Catalina容器的父类加载器，当然也是WebAppClassLoader的父类加载器。
+     */
     ClassLoader commonLoader = null;
     ClassLoader catalinaLoader = null;
     ClassLoader sharedLoader = null;
@@ -141,12 +157,16 @@ public final class Bootstrap {
 
     private void initClassLoaders() {
         try {
+            // 创建commonLoader类加载器，commonLoader的加载路径为common.loader
+            // common.loader="${catalina.base}/lib","${catalina.base}/lib/*.jar","${catalina.home}/lib","${catalina.home}/lib/*.jar"
             commonLoader = createClassLoader("common", null);
             if (commonLoader == null) {
                 // no config file, default to this loader - we might be in a 'single' env.
                 commonLoader = this.getClass().getClassLoader();
             }
+            // 加载路径为server.loader，默认为空，父类加载器为commonLoader
             catalinaLoader = createClassLoader("server", commonLoader);
+            // 加载路径为shared.loader，默认为空，父类加载器为commonLoader
             sharedLoader = createClassLoader("shared", commonLoader);
         } catch (Throwable t) {
             handleThrowable(t);
@@ -248,15 +268,19 @@ public final class Bootstrap {
      */
     public void init() throws Exception {
 
+        // 初始化类加载器
         initClassLoaders();
 
+        // 将catalinaLoader设置为当前线程的类加载器
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
+        // 给安全类加载器设置类加载器
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
         // Load our startup class and call its process() method
         if (log.isDebugEnabled())
             log.debug("Loading startup class");
+        // 这里不理解的是为什么使用反射来创建实例，而不是直接使用new Catalina()方式，而且Catalina类的构造器是Public的？
         Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
         Object startupInstance = startupClass.getConstructor().newInstance();
 
@@ -266,6 +290,8 @@ public final class Bootstrap {
         String methodName = "setParentClassLoader";
         Class<?> paramTypes[] = new Class[1];
         paramTypes[0] = Class.forName("java.lang.ClassLoader");
+
+        // 设置sharedLoader类加载器为整个Catalina容器的父类加载器，当然也是WebAppClassLoader的父类加载器。
         Object paramValues[] = new Object[1];
         paramValues[0] = sharedLoader;
         Method method =

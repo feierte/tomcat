@@ -131,6 +131,11 @@ public class StringManager {
             // Avoid NPE if bundle is null and treat it like an MRE
             if (bundle != null) {
                 str = bundle.getString(key);
+                try{
+                    str = new String(str.getBytes("ISO-8859-1"),"UTF-8");
+                }catch (Exception e ){
+                    e.printStackTrace();
+                }
             }
         } catch (MissingResourceException mre) {
             //bad: shouldn't mask an exception the following way:
@@ -165,11 +170,6 @@ public class StringManager {
         String value = getString(key);
         if (value == null) {
             value = key;
-        }
-        try{
-            value = new String(value.getBytes("ISO-8859-1"),"UTF-8");
-        }catch (Exception e ){
-            e.printStackTrace();
         }
 
         MessageFormat mf = new MessageFormat(value);
