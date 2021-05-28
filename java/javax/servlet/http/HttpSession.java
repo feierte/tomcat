@@ -131,6 +131,16 @@ public interface HttpSession {
      * @return an integer specifying the number of seconds this session remains
      *         open between client requests
      * @see #setMaxInactiveInterval
+     *
+     * @apiNote 获取session可以的最大不活动时间（秒），Tomcat默认为30分钟。
+     * 可以在${CATALANA}/conf/web.xml找到这个配置，当然你也可以在自己的web.xml中覆盖这个配置！
+     *
+     * web.xml
+     * <session-config>
+     *  <session-timeout>30</session-timeout>
+     *  </session-config>
+     *
+     * 当session在30分钟内没有使用，那么Tomcat会在session池中移除这个session；
      */
     public int getMaxInactiveInterval();
 
@@ -263,6 +273,8 @@ public interface HttpSession {
      *
      * @exception IllegalStateException
      *                if this method is called on an already invalidated session
+     *
+     * @apiNote 使此会话无效，然后解除绑定到它的任何对象
      */
     public void invalidate();
 
@@ -276,6 +288,9 @@ public interface HttpSession {
      *         client has not yet joined
      * @exception IllegalStateException
      *                if this method is called on an already invalidated session
+     *
+     * @apiNote 查看session是否为新。当客户端第一次请求时，服务器为客户端创建session，但这时服务器还没有响应客户端，
+     * 也就是还没有把sessionId响应给客户端时，这时session的状态为新。
      */
     public boolean isNew();
 }
