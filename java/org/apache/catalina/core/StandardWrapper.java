@@ -69,6 +69,9 @@ import org.apache.tomcat.util.modeler.Util;
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
+ *
+ * @apiNote Wrapper是Context的子容器, 它代表了在应用部署描述中的一个单独的servlet.
+ * 它通过Servlet的init和destroy方法掌管了底层的Servlet的生命周期.并且其中的阀还负责调用Servlet响应用户请求的功能.Wrapper的默认实现是StandardWrapper.
  */
 @SuppressWarnings("deprecation") // SingleThreadModel
 public class StandardWrapper extends ContainerBase
@@ -139,6 +142,8 @@ public class StandardWrapper extends ContainerBase
     /**
      * The load-on-startup order value (negative value means load on
      * first call) for this servlet.
+     *
+     * @apiNote 表示Servlet在容器启动的时候的加载顺序,如果为负数的话就是Servlet在第一次被使用的时候进行加载实例化
      */
     protected int loadOnStartup = -1;
 
@@ -152,6 +157,8 @@ public class StandardWrapper extends ContainerBase
     /**
      * The initialization parameters for this servlet, keyed by
      * parameter name.
+     *
+     * @apiNote 表示的是Servlet的参数,这是一个Map.也就是web.xml中所配置的启动参数
      */
     protected HashMap<String, String> parameters = new HashMap<>();
 
@@ -182,6 +189,8 @@ public class StandardWrapper extends ContainerBase
 
     /**
      * Does this servlet implement the SingleThreadModel interface?
+     *
+     * @apiNote 代表是单线程模式,是保证一个特定 servlet 实例的 service 方法在一个时刻仅能被一个线程执行,此保证仅适用于每一个 servlet 实例,因此容器可以选择池化这些对象.
      */
     protected volatile boolean singleThreadModel = false;
 
@@ -651,6 +660,9 @@ public class StandardWrapper extends ContainerBase
      * of the Container hierarchy.
      *
      * @param child Child container to be added
+     *
+     * @apiNote 与StandardWrapper的上层容器不同的是,StandardWrapper已经没有下层容器了,
+     * 所以在它的addChild方法实现上是直接抛出一个IllegalStateException异常
      */
     @Override
     public void addChild(Container child) {

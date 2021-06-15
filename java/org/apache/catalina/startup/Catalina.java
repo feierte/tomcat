@@ -71,6 +71,8 @@ import org.xml.sax.InputSource;
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
+ *
+ * @apiNote Catalina负责管理Server，而Server表示整个服务器。Server下面有多个服务Service，每个服务都包含多个连接器组件Connector和一个容器组件Container
  */
 public class Catalina {
 

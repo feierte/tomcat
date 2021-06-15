@@ -75,6 +75,8 @@ import org.apache.juli.logging.Log;
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
+ *
+ * @apiNote Container表示部署在Tomcat中的一个web应用的容器。
  */
 public interface Container extends Lifecycle {
 

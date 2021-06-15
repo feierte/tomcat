@@ -1,3 +1,11 @@
+# 引言
+
+## servlet-api 和 javax.servlet-api的区别
+这两个构件都是 Servlet-Specificatoin Jar （Servlet 规范包），只不过因为版本升级:
+
+- 3.1 之前的 Servlet API 构件叫做 servlet-api-xxx.jar
+- 3.1 及之后的Servlet API 构件改名为 javax.servlet-api-xxx.jar
+
 # Tomcat总体架构
 
 ## 浏览器访问服务器的流程

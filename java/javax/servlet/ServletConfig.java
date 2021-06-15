@@ -55,6 +55,8 @@ public interface ServletConfig {
      *            initialization parameter
      * @return a <code>String</code> containing the value of the initialization
      *         parameter
+     *
+     * @apiNote 获取在web.xml中定义的init-param中的配置参数
      */
     public String getInitParameter(String name);
 
@@ -65,6 +67,8 @@ public interface ServletConfig {
      *
      * @return an <code>Enumeration</code> of <code>String</code> objects
      *         containing the names of the servlet's initialization parameters
+     *
+     * @apiNote 获取在web.xml中定义的init-param中的所有名称
      */
     public Enumeration<String> getInitParameterNames();
 }

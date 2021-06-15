@@ -59,6 +59,8 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  * <p>那么为什么要存在一个ServletContext对象呢？
  * 存在肯定是有它的道理，因为有了ServletContext对象，就可以共享从应用程序中的所有资料处访问到的信息，
  * 并且可以动态注册Web对象。前者将对象保存在ServletContext中的一个内部Map中。保存在ServletContext中的对象被称作属性。
+ *
+ * <p>ServletConfig是Servlet级别,而ServletContext是Context(也就是Application)级别，ServletContext通常利用setAttribute方法保存Application的属性。
  */
 public interface ServletContext {
 
