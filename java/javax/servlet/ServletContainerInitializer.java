@@ -38,7 +38,7 @@ import java.util.Set;
  * @apiNote Servlet容器启动器
  * <p>参考SpringMVC中的SpringServletContainerInitializer类
  * <p>
- *     1.Servlet容器启动时会扫描，当前应用里面每一个jar包的ServletContainerInitializer的实现。
+ *     1.Servlet容器启动时会扫描当前应用里面每一个jar包的ServletContainerInitializer的实现。
  *     2.提供ServletContainerInitializer的实现类；必须绑定在，META-INF/services/javax.servlet.ServletContainerInitializer文件的内容就是ServletContainerInitializer实现类的全类名；
  *     3.我们可以给ServletContainerInitializer 的实现类添加 @HandlesTypes 注解，在其onStartup 方法上便可以得到我们感兴趣的类（@HandlesTypes 注解指定的类）
  */

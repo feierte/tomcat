@@ -531,6 +531,10 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     /**
      * Invoke a pre-startup initialization. This is used to allow connectors
      * to bind to restricted ports under Unix operating environments.
+     *
+     * @apiNote StandardService类的初始化过程依然是将初始化的过程“下放”给子容器初始化的过程。
+     * 这就引出了第二个设计模式：责任链设计模式，在这种模式中，通常每个接收者都包含对另一个接收者的引用。
+     * 如果一个对象不能处理该请求，那么它会把相同的请求传给下一个接收者，依此类推
      */
     @Override
     protected void initInternal() throws LifecycleException {

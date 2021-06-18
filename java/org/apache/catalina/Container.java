@@ -77,6 +77,8 @@ import org.apache.juli.logging.Log;
  * @author Remy Maucherat
  *
  * @apiNote Container表示部署在Tomcat中的一个web应用的容器。
+ *
+ * <p>server.xml中的标签和java类并不是完全一一对应的关系，这里的Container实际上就是将<Engine>、<Host>等标签对应类的共性抽取的父接口。
  */
 public interface Container extends Lifecycle {
 

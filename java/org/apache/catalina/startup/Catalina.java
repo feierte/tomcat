@@ -73,6 +73,8 @@ import org.xml.sax.InputSource;
  * @author Remy Maucherat
  *
  * @apiNote Catalina负责管理Server，而Server表示整个服务器。Server下面有多个服务Service，每个服务都包含多个连接器组件Connector和一个容器组件Container
+ *
+ * <p>解析Tomcat的配置文件（conf/server.xml），以此来创建服务器组件Server，并根据命令对其进行管理
  */
 public class Catalina {
 
@@ -708,6 +710,7 @@ public class Catalina {
         initNaming();
 
         // Parse main server.xml
+        // 加载server.xml文件，将配置的所有组件加载到内存中，然后调用start()方法进行组件的初始化和加载
         parseServerXml(true);
         Server s = getServer();
         if (s == null) {
@@ -796,6 +799,8 @@ public class Catalina {
             if (shutdownHook == null) {
                 shutdownHook = new CatalinaShutdownHook();
             }
+            // 主要的作用是在虚拟机关闭时加了一个“钩子”线程CatalinaShutdownHook，
+            // 确保Catalina的关闭正常，以及异常时的日志管理。
             Runtime.getRuntime().addShutdownHook(shutdownHook);
 
             // If JULI is being used, disable JULI's shutdown hook since
