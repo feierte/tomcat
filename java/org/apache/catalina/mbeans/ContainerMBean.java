@@ -56,7 +56,9 @@ public class ContainerMBean extends BaseCatalinaMBean<ContainerBase> {
             HostConfig config = new HostConfig();
             contained.addLifecycleListener(config);
         } else if(contained instanceof StandardContext){
+            // 添加的容器是一个Tomcat子容器的话，就分配其一个 ContextConfig
             ContextConfig config = new ContextConfig();
+            // 将 ContextConfig 添加到 Container 的监听者行列中
             contained.addLifecycleListener(config);
         }
 
@@ -67,6 +69,8 @@ public class ContainerMBean extends BaseCatalinaMBean<ContainerBase> {
             oldValue = container.getStartChildren();
             container.setStartChildren(false);
             container.addChild(contained);
+            // 初始化 Container，会通知所有正在监听 Container 的观察者
+            // 对于 ContextConfig 来说，现在应该做的是加载配置等
             contained.init();
         } catch (LifecycleException e){
             throw new MBeanException(e);

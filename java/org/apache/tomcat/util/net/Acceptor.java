@@ -123,6 +123,8 @@ public class Acceptor<U> implements Runnable {
                     if (!stopCalled && !endpoint.isPaused()) {
                         // setSocketOptions() will hand the socket off to
                         // an appropriate processor if successful
+
+                        // setSocketOptions(socket) 方法将上面接收到的 socket 添加到轮询器 Poller 中。
                         if (!endpoint.setSocketOptions(socket)) {
                             endpoint.closeSocket(socket);
                         }

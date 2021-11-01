@@ -614,6 +614,9 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
      */
     public class Poller implements Runnable {
 
+        /**
+         * Java NIO中的 Selector，可以看到一个 Poller 关联一个 Selector
+         */
         private Selector selector;
         private final SynchronizedQueue<PollerEvent> events =
                 new SynchronizedQueue<>();

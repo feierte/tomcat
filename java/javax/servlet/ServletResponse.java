@@ -53,8 +53,8 @@ import java.util.Locale;
  *
  * @see ServletOutputStream
  *
- * @apiNote ServletResponse接口表示一个Servlet响应，在调用Servlet的Service( )方法前，Servlet容器会先创建一个ServletResponse对象，
- * 并把它作为第二个参数传给Service( )方法。ServletResponse隐藏了向浏览器发送响应的复杂过程。
+ * @apiNote ServletResponse接口表示一个Servlet响应，在调用Servlet的 service(...) 方法前，Servlet容器会先创建一个ServletResponse对象，
+ * 并把它作为第二个参数传给 service(...)方法。ServletResponse隐藏了向浏览器发送响应的复杂过程。
  */
 public interface ServletResponse {
 

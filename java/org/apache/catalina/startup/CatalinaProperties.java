@@ -32,6 +32,8 @@ import org.apache.juli.logging.LogFactory;
  * Utility class to read the bootstrap Catalina configuration.
  *
  * @author Remy Maucherat
+ *
+ * @apiNote 初始化Tomcat的配置（ {catalina.home}/conf/catalina.properties ） 并注册到 System 属性中。
  */
 public class CatalinaProperties {
 

@@ -704,9 +704,11 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
+        // 初始化临时目录
         initDirs();
 
         // Before digester - it may be needed
+        // 初始化命名
         initNaming();
 
         // Parse main server.xml
@@ -774,6 +776,7 @@ public class Catalina {
 
         // Start the new server
         try {
+            // 启动 Server
             getServer().start();
         } catch (LifecycleException e) {
             log.fatal(sm.getString("catalina.serverStartFail"), e);
@@ -932,8 +935,11 @@ public class Catalina {
      * Set the security package access/protection.
      */
     protected void setSecurityProtection(){
+        // 获取SecurityConfig单例，SecurityConfig从catalina.properties文件中读取Security属性（没有则使用默认值）并设置到Security中
         SecurityConfig securityConfig = SecurityConfig.newInstance();
+        // 设置包定义权限
         securityConfig.setPackageDefinition();
+        // 设置包访问权权限
         securityConfig.setPackageAccess();
     }
 

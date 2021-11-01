@@ -49,18 +49,23 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  * @see Servlet#getServletConfig
  * @see ServletConfig#getServletContext
  *
- * @apiNote  ServletContext对象表示Servlet应用程序。每个Web应用程序都只有一个ServletContext对象。
- * 在将一个应用程序同时部署到多个容器的分布式环境中，每台Java虚拟机上的Web应用都会有一个ServletContext对象。
+ * @apiNote  ServletContext 对象表示 Servlet 应用程序。每个Web应用程序都只有一个 ServletContext 对象。
+ * 在将一个应用程序同时部署到多个容器的分布式环境中，每台Java虚拟机上的Web应用都会有一个 ServletContext 对象。
  *
- * <p>WEB容器在启动时，它会为每个Web应用程序都创建一个对应的ServletContext，它代表当前Web应用。并且它被所有客户端共享。
- * 由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。
- * ServletContext对象通常也被称之为context域对象。（公共聊天室就会用到它；网站的第几位浏览者（网站计数器）；我们在访问某个bbs网站的时候，往往会显示有多少人在线，这是怎么实现的？都可以用ServletContext实现）。
+ * <p>WEB容器在启动时，它会为每个Web应用程序都创建一个对应的 ServletContext，它代表当前Web应用。并且它被所有客户端共享。
+ * 由于一个WEB应用中的所有 Servlet 共享同一个 ServletContext 对象，因此 Servlet 对象之间可以通过 ServletContext 对象来实现通讯。
+ * ServletContext 对象通常也被称之为 context 域对象。（公共聊天室就会用到它；网站的第几位浏览者（网站计数器）；我们在访问某个bbs网站的时候，往往会显示有多少人在线，这是怎么实现的？都可以用ServletContext实现）。
  *
- * <p>那么为什么要存在一个ServletContext对象呢？
- * 存在肯定是有它的道理，因为有了ServletContext对象，就可以共享从应用程序中的所有资料处访问到的信息，
- * 并且可以动态注册Web对象。前者将对象保存在ServletContext中的一个内部Map中。保存在ServletContext中的对象被称作属性。
+ * <p>那么为什么要存在一个 ServletContext 对象呢？
+ * 存在肯定是有它的道理，因为有了 ServletContext 对象，就可以共享从应用程序中的所有资料处访问到的信息，
+ * 并且可以动态注册Web对象。前者将对象保存在 ServletContext 中的一个内部Map中。保存在 ServletContext 中的对象被称作属性。
  *
- * <p>ServletConfig是Servlet级别,而ServletContext是Context(也就是Application)级别，ServletContext通常利用setAttribute方法保存Application的属性。
+ * <p>ServletContext是个很重要的东西，在每次的servlet规范更新中，这个接口都有较大的变化。
+ * 因为ServletContext是容器和应用沟通的桥梁，从一定程度上讲ServletContext就是servlet规范的体现。
+ *
+ * <p>ServletConfig 与 ServletContext 对比？
+ *     ServletConfig 是 Servlet 级别,而 ServletContext 是 Context(也就是Application) 级别，
+ *     ServletContext 通常利用s etAttribute 方法保存 Application 级别的属性。
  */
 public interface ServletContext {
 

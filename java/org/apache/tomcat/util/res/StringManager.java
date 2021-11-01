@@ -151,7 +151,6 @@ public class StringManager {
             //      a null check.
             str = null;
         }
-
         return str;
     }
 

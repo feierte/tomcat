@@ -127,7 +127,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
     @Override
     public final synchronized void init() throws LifecycleException {
-        // 当前状态不是 LifecycleState.NEW)，抛出异常
+        // 当前状态不是 LifecycleState.NEW，抛出异常
         if (!state.equals(LifecycleState.NEW)) {
             invalidTransition(Lifecycle.BEFORE_INIT_EVENT);
         }

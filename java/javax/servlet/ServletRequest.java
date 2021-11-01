@@ -37,7 +37,7 @@ import java.util.Map;
  *
  * @apiNote
  *
- * <p> Servlet容器对于接受到的每一个Http请求，都会创建一个ServletRequest对象，并把这个对象传递给Servlet的Sevice( )方法。
+ * <p> Servlet容器对于接受到的每一个Http请求，都会创建一个ServletRequest对象，并把这个对象传递给Servlet的 service(...) 方法。
  * 其中，ServletRequest对象内封装了关于这个请求的许多详细信息
  */
 public interface ServletRequest {
@@ -111,7 +111,7 @@ public interface ServletRequest {
      * @apiNote 设置请求的字符编码
      *
      * <p>解决post提交方式的乱码：request.setCharacterEncoding("UTF-8");
-     *  解决get提交的方式的乱码：parameter = newString(parameter.getbytes("iso8859-1"),"utf-8");
+     *  解决get提交的方式的乱码：parameter = new String(parameter.getBytes("iso8859-1"),"utf-8");
      */
     public void setCharacterEncoding(String env)
             throws java.io.UnsupportedEncodingException;
