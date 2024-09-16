@@ -45,6 +45,8 @@ import javax.servlet.UnavailableException;
  * <code>IllegalArgumentException</code>.
  *
  * @author Craig R. McClanahan
+ *
+ * @apiNote Wrapper 作为一类容器，用于表示 Web 应用中定义的 Servlet，每一个 Wrapper 封装这一个 Servlet。
  */
 public interface Wrapper extends Container {
 

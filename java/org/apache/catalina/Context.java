@@ -58,7 +58,8 @@ import org.apache.tomcat.util.http.CookieProcessor;
  *
  * @author Craig R. McClanahan
  *
- * @apiNote 表示一个Web应用
+ * @apiNote Context 作为一类容器，用于表示 ServletContext，在 Servlet 规范中,一个 ServletContext 即表示一个独立的 Web 应用。
+ * 代表一个应用程序，对应着平时研发的一套程序，或者 WEB-INF 目录以及下面的 web.xml 文件 。
  */
 public interface Context extends Container, ContextBind {
 

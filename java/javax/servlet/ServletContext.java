@@ -65,7 +65,7 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  *
  * <p>ServletConfig 与 ServletContext 对比？
  *     ServletConfig 是 Servlet 级别,而 ServletContext 是 Context(也就是Application) 级别，
- *     ServletContext 通常利用s etAttribute 方法保存 Application 级别的属性。
+ *     ServletContext 通常利用 setAttribute 方法保存 Application 级别的属性。
  */
 public interface ServletContext {
 
