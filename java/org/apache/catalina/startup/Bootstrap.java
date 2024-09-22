@@ -364,7 +364,7 @@ public final class Bootstrap {
             init();
         }
 
-        // catalinaDaemon对象 为Catalina实例
+        // catalinaDaemon对象为Catalina实例
         Method method = catalinaDaemon.getClass().getMethod("start", (Class [])null);
         // 执行Catalina的start()方法
         method.invoke(catalinaDaemon, (Object [])null);

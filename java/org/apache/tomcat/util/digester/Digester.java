@@ -83,6 +83,8 @@ import org.xml.sax.helpers.AttributesImpl;
  * <p><strong>IMPLEMENTATION NOTE</strong> - A bug in Xerces 2.0.2 prevents
  * the support of XML schema. You need Xerces 2.1/2.3 and up to make
  * this class working with XML schema</p>
+ *
+ * @apiNote Digester 是 tomcat 的 xml 文件解析工具。
  */
 public class Digester extends DefaultHandler2 {
 

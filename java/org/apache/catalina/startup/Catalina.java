@@ -609,6 +609,7 @@ public class Catalina {
         } else {
             try (ConfigurationSource.Resource resource = ConfigFileLoader.getSource().getServerXml()) {
                 // Create and execute our Digester
+                // 解析 server.xml 配置文件
                 Digester digester = start ? createStartDigester() : createStopDigester();
                 InputStream inputStream = resource.getInputStream();
                 InputSource inputSource = new InputSource(resource.getURI().toURL().toString());
@@ -708,7 +709,7 @@ public class Catalina {
         initDirs();
 
         // Before digester - it may be needed
-        // 初始化命名
+        // 初始化命名服务
         initNaming();
 
         // Parse main server.xml

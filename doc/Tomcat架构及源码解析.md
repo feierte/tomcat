@@ -188,9 +188,19 @@ pom.xml文件内容如下（文件中的tomcat版本相关信息可以自定义�
 
 
 
+# Tomcat启动流程
 
 
-# Tomcat服务器核⼼配置详解
+
+# Tomcat请求处理流程
+
+
+
+# 核⼼配置详解
+
+
+
+## Tomcat服务器配置
 
 问题⼀：去哪⼉配置？ 核⼼配置在tomcat⽬录下conf/server.xml⽂件
 
@@ -217,6 +227,14 @@ Service
     <Service/>
 </Server>
 ```
+
+
+
+## Web应用配置
+
+
+
+## JVM配置
 
 
 

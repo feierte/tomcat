@@ -20,15 +20,21 @@
      Documentation at /docs/config/server.html
  -->
 <Server port="8005" shutdown="SHUTDOWN">
+
+  <!-- 用于以日志形式输出服务器、操作系统、JVM的般般信息 -->
   <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
   -->
   <!--APR library loader. Documentation at /docs/apr.html -->
+  <!-- 用于加载（服务器启动时）和销毁（服务器停止时）APR。如果找不到 APR 库，则会输出日志，并不影响 Tomcat 启动 -->
   <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
   <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+  <!-- 用于避免 jre 内存泄漏 -->
   <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <!-- 用于加载（服务器启动时）和销毁（服务器停止时）全局命名服务 -->
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <!-- 用于在 Context 停止时重建 Executor 池中的线程，以避免 ThreadLocal 相关的内存泄漏 -->
   <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
 
   <!-- Global JNDI resources
@@ -48,11 +54,25 @@
   <!-- A "Service" is a collection of one or more "Connectors" that share
        a single "Container" Note:  A "Service" is not itself a "Container",
        so you may not define subcomponents such as "Valves" at this level.
-       Documentation at /docs/config/service.html
+       Documentation at /docs/
+       /service.html
    -->
   <Service name="Catalina">
 
     <!--The connectors can use a shared executor, you can define one or more named thread pools-->
+    <!--
+       线程池配置，支持的属性有：
+        name：线程池名称，用于在 Connector 中绑定
+        namePrefix：线程池中线程名称前缀，线程名称为 namePrefix + threadNumber
+        maxThreads：线程池中最大线程数
+        minSpareThreads：线程池中活跃线程数，也就是核心线程数，这些线程不会被销毁，会一直存在
+        maxIdleTime：线程空闲时间，超过该时间后，空闲线程会被销毁，默认时间为 6000 ms
+        maxQueueSize：线程池中任务等待队列，默认值为 Inter.MAX_VALUE，除非特殊情况，该值不需要更改，否则会有请求不会被处理的情况发生
+        prestartminSpareThreads：启动线程池时是否创建 minSpareThreads 线程。默认值为 false，即不创建。
+        threadPriority：线程池中线程优先级，默认值为 5，值从 1 到 10。
+        className：线程池实现类，未指定情况下，默认实现类为 org.apache.catalina.core.StandardThreadExecutor。
+                  如果想使用自定义线程池首先需要实现 org.apache.catalina.Executor 接口。
+     -->
     <!--
     <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
         maxThreads="150" minSpareThreads="4"/>
@@ -65,6 +85,30 @@
          Java AJP  Connector: /docs/config/ajp.html
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
+    -->
+    <!-- 负责接收外部的 http 请求，然后经 tomcat 处理后，发送响应信息给请求者。
+      常用属性有：
+         port：端口号，Connector 用于创建服务端 Socket 并进行监听，以等待客户端请求连接。
+              如果该属性设置为 0，Tomcat 将会随机选择一个可用的端口号给当前 Connector 使用。
+         protocol：当前 Connector 支持的访问协议。默认为 HTTP/1.1，并采用自动切换机制选择一个基于 JAVA NIO 的链接器或者基于本地 APR 的链接器（根据本地是否含有Tomcat的本地库判定）。
+         connectionTimeOut : Connector 接收链接后的等待超时时间，单位为 毫秒。-1 表示不超时。
+         redirectPort：当前 Connector 不支持 SSL 请求，接收到了一个请求，并且也符合 security-constraint 约束，需要 SSL 传输，Catalina 自动将请求重定向到指定的端口。
+         executor： 指定共享线程池的名称，也可以通过 maxThreads、minSpareThreads 等属性配置内部线程池。
+         URIEncoding：用于指定编码 URI 的字符编码， Tomcat8.x 版本默认的编码为 UTF-8，Tomcat7.x 版本默认为 ISO-8859-1。
+      完整配置如下：
+        <Connector port="8080"
+                    protocol="HTTP/1.1"
+                    executor="tomcatThreadPool"
+                    maxThreads="1000"
+                    minSpareThreads="100"
+                    acceptCount="1000"
+                    maxConnections="1000"
+                    connectionTimeout="20000"
+                    compression="on"
+                    compressionMinSize="2048"
+                    disableUploadTimeout="true"
+                    redirectPort="8443"
+                    URIEncoding="UTF-8" />
     -->
     <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
@@ -129,6 +173,11 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
+    <!-- Engine 是 Servlet 引擎的顶级标签，内部可以嵌入：Cluster、Listener、Realm、Valve 和 Host
+      常用属性：
+         name：用于指定 Engine 的名称，默认为 Catalina。该名称会影响一部分 Tomcat 的存储路径（如临时文件）。
+         defaultHost：默认使用的虚拟主机名称，当客户端请求指向的主机无效时，将交由默认的虚拟主机处理，默认为 localhost。
+    -->
     <Engine name="Catalina" defaultHost="localhost">
 
       <!--For clustering, please take a look at documentation at:
@@ -149,6 +198,15 @@
                resourceName="UserDatabase"/>
       </Realm>
 
+      <!-- Host 元素用于配置一个虚拟主机，它支持以下嵌入标签：Alias、Cluster、Listener、Valve、Realm、Context。
+           如果在 Engine 下配置 Realm，那么此配置将在当前 Engine 下的所有 Host 中共享。同样，如果在 Host 中配置 Realm，
+           则在当前 Host 下的所有 Context 中共享。Context 中的 Realm 优先级 > Host 中的 Realm优先级 > Engine 中的 Realm 优先级。
+        常用属性：
+          name: 当前Host通用的网络名称，必须与 DNS 服务器上的注册信息一致。Engine 中包含的 Host 必须存在一个名称与 Engine 的 defaultHost 设置一致。
+          appBase：当前 Host 的应用基础目录， 当前 Host 上部署的 Web 应用均在该目录下（可以是绝对目录，相对目录）。默认为 webapps（相对目录）。
+          unpackWARs：设置为 true， Host 在启动时会将 appBase 目录下 war 包解压为目录。设置为 false，Host 将直接从 war 文件启动。
+          autoDeploy：控制 tomcat 是否在运行时定期检测并自动部署新增或变更的 web 应用。
+      -->
       <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
 
