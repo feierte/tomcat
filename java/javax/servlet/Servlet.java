@@ -92,9 +92,10 @@ public interface Servlet {
      * @see UnavailableException
      * @see #getServletConfig
      *
-     * @apiNote Servlet的生命周期方法，执行Servlet的一些初始化工作
-     * 当Servlet第一次被请求时，Servlet容器就会开始调用这个方法来初始化一个Servlet对象出来，但是这个方法在后续请求中不会在被Servlet容器调用，就像人只能“出生”一次一样。
-     * 我们可以利用init()方法来执行相应的初始化工作。调用这个方法时，Servlet容器会传入一个ServletConfig对象进来从而对Servlet对象进行初始化。
+     * @apiNote Servlet的生命周期方法，执行Servlet的一些初始化工作。
+     *
+     * <p>tomcat容器负责初始化Servlet对象，在Servlet的生命周期中，该方法执行一次；该方法执行在单线程的环境下，因此开发者不用考虑线程安全的问题。
+     * 调用这个方法时，Servlet容器会传入一个ServletConfig对象进来从而对Servlet对象进行初始化。
      */
     public void init(ServletConfig config) throws ServletException;
 
@@ -157,10 +158,8 @@ public interface Servlet {
      * @exception IOException
      *                if an input or output exception occurs
      *
-     * @apiNote Servlet的生命周期方法，执行Servlet的业务逻辑
-     * 每当请求Servlet时，Servlet容器就会调用这个方法。就像人一样，需要不停的接受老板的指令并且“工作”。
-     * 第一次请求时，Servlet容器会先调用init()方法初始化一个Servlet对象出来，然后会调用它的service()方法进行工作，
-     * 但在后续的请求中，Servlet容器只会调用service方法了。
+     * @apiNote 负责响应客户的请求，执行Servlet中的业务逻辑；
+     * 为了提高效率，Servlet规范要求一个Servlet实例必须能够同时服务于多个客户端请求，即service()方法运行在多线程的环境下，Servlet开发者必须保证该方法的线程安全性；
      */
     public void service(ServletRequest req, ServletResponse res)
             throws ServletException, IOException;
@@ -192,7 +191,7 @@ public interface Servlet {
      * state in memory.
      *
      * @apiNote Servlet的生命周期方法，销毁Servlet
-     * 当要销毁Servlet时，Servlet容器就会调用这个方法，就如人一样，到时期了就得死亡。
+     * 当要销毁Servlet时，Servlet容器就会调用这个方法，释放占用资源。
      * 在卸载应用程序或者关闭Servlet容器时，就会发生这种情况，一般在这个方法中会写一些清除代码。
      */
     public void destroy();

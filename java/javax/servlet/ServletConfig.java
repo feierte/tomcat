@@ -21,6 +21,10 @@ import java.util.Enumeration;
 /**
  * A servlet configuration object used by a servlet container to pass
  * information to a servlet during initialization.
+ *
+ * @apiNote ServletConfig 封装了通过 @WebServlet 或者 web.xml 传给一个 Servlet 的配置信息，以这种方式传递的每一条信息都称做初始化信息，
+ * 初始化信息就是一个个 K-V 键值对。为了从一个 Servlet 内部获取某个初始参数的值，init 方法中调用 getInitParameter 方法或 getInitParameterNames方法获取，
+ * 除此之外，还可以通过 getServletContext 获取 ServletContext 对象。
  */
 public interface ServletConfig {
 

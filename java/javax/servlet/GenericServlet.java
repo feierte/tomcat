@@ -36,6 +36,10 @@ import java.util.Enumeration;
  * <p>
  * To write a generic servlet, you need only override the abstract
  * <code>service</code> method.
+ *
+ * @apiNote Servlet 的通用实现，如果直接使用 Servlet 接口，我们每次都必须为 Servlet 中的所有方法都提供实现，
+ * 还需要将 ServletConfig 对象保存到一个类级别的变量中，GenericServlet 抽象类就是为了为我们省略一些模板代码，
+ * 并提供了 Servlet 和 ServletConfig 的实现。
  */
 public abstract class GenericServlet implements Servlet, ServletConfig,
         java.io.Serializable {
@@ -172,7 +176,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig,
      *                if an exception occurs that interrupts the servlet's
      *                normal operation
      *
-     * @apiNote
+     * @apiNote 执行 Servlet 的初始化工作。
      * <p>在第一个带参数的init(ServletConfig)方法中就已经把ServletConfig对象传入并且通过引用保存好了，完成了Servlet的初始化过程，
      * 那么为什么后面还要加上一个不带任何参数的init（）方法呢？这不是多此一举吗？
      *  1、当然不是多此一举了，存在必然有存在它的道理。我们知道，抽象类是无法直接产生实例的，需要另一个类去继承这个抽象类，那么就会发生方法覆盖的问题，
