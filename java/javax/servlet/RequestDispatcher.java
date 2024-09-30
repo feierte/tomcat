@@ -33,6 +33,13 @@ import java.io.IOException;
  * @see ServletContext#getNamedDispatcher(java.lang.String)
  * @see ServletRequest#getRequestDispatcher(java.lang.String)
  *
+ * @apiNote RequestDispatcher 是一个用于将请求转发到其他资源的接口。
+ * 这个接口提供了一种机制，允许一个 Servlet 将请求的处理转发给同一个 Web 应用程序中的另一个资源，如另一个 Servlet、JSP 页面或者 HTML 页面。
+ *
+ * <p>使用 RequestDispatcher 可以完成以下操作：<p/>
+ *  请求转发：请求转发是服务器内部资源之间的跳转，客户端浏览器的地址栏不会改变，用户感觉不到跳转的发生。
+ *  资源共享：通过请求转发，可以将请求的处理分散到不同的资源上，实现代码的重用。
+ *  模块化设计：可以将应用程序分解成更小的模块，每个模块处理特定的任务。
  */
 public interface RequestDispatcher {
 
@@ -276,6 +283,8 @@ public interface RequestDispatcher {
      *
      * @exception IllegalStateException
      *                if the response was already committed
+     *
+     * @apiNote 将请求转发到另一个资源。请求转发是服务器内部的资源跳转，客户端浏览器的地址栏不会改变。
      */
     public void forward(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
@@ -310,6 +319,9 @@ public interface RequestDispatcher {
      *
      * @exception IOException
      *                if the included resource throws this exception
+     *
+     * @apiNote 将一个资源的内容包含到当前请求中，通常用于包含公共模块。
+     * 请求包含是将一个资源的内容嵌入到当前请求中，客户端浏览器的地址栏不会改变，但是可以嵌入多个资源。
      */
     public void include(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;

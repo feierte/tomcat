@@ -31,6 +31,11 @@ import javax.net.ssl.SSLParameters;
 import org.apache.tomcat.util.compat.JreCompat;
 import org.apache.tomcat.util.net.openssl.ciphers.Cipher;
 
+/**
+ * 提供了额外的 https 功能。
+ * @param <S>
+ * @param <U>
+ */
 public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
 
     private String sslImplementationName = null;

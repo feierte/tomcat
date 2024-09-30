@@ -25,6 +25,10 @@ import org.apache.tomcat.jni.Error;
 import org.apache.tomcat.util.ExceptionUtils;
 import org.apache.tomcat.util.res.StringManager;
 
+/**
+ * Acceptor 实现了 Runnable 接口，可以作为一个线程启动，使用 Socket API 监听指定端口，用于接收用户请求。
+ * @param <U>
+ */
 public class Acceptor<U> implements Runnable {
 
     private static final Log log = LogFactory.getLog(Acceptor.class);
@@ -75,6 +79,7 @@ public class Acceptor<U> implements Runnable {
             while (!stopCalled) {
 
                 // Loop if endpoint is paused
+                // 运行过程中，如果 Endpoint 暂停了，则 Acceptor 进行自旋（间隔50毫秒）
                 while (endpoint.isPaused() && !stopCalled) {
                     state = AcceptorState.PAUSED;
                     try {
@@ -91,18 +96,20 @@ public class Acceptor<U> implements Runnable {
 
                 try {
                     //if we have reached max connections, wait
+                    // 这里判断是否达到 tomcat 允许的最大连接数，没达到连接数 +1，如果达到就进行等待
                     endpoint.countUpOrAwaitConnection();
 
                     // Endpoint might have been paused while waiting for latch
                     // If that is the case, don't accept new connections
+                    // 如果 Endpoint 暂停，则 Acceptor 也不接收新请求
                     if (endpoint.isPaused()) {
                         continue;
                     }
 
                     U socket = null;
                     try {
-                        // Accept the next incoming connection from the server
-                        // socket
+                        // Accept the next incoming connection from the server socket
+                        // 监听来自客户端的 socket 请求，并返回
                         socket = endpoint.serverSocketAccept();
                     } catch (Exception ioe) {
                         // We didn't get a socket
@@ -113,6 +120,7 @@ public class Acceptor<U> implements Runnable {
                             // re-throw
                             throw ioe;
                         } else {
+                            // 如果 Endpoint 终止了，则 Acceptor 也会终止
                             break;
                         }
                     }
@@ -121,9 +129,7 @@ public class Acceptor<U> implements Runnable {
 
                     // Configure the socket
                     if (!stopCalled && !endpoint.isPaused()) {
-                        // setSocketOptions() will hand the socket off to
-                        // an appropriate processor if successful
-
+                        // setSocketOptions() will hand the socket off to an appropriate processor if successful
                         // setSocketOptions(socket) 方法将上面接收到的 socket 添加到轮询器 Poller 中。
                         if (!endpoint.setSocketOptions(socket)) {
                             endpoint.closeSocket(socket);

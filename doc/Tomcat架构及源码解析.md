@@ -130,6 +130,7 @@ pom.xml文件内容如下（文件中的tomcat版本相关信息可以自定义�
 -Djava.io.tmpdir=catalina-home/temp
 -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
 -Djava.util.logging.config.file=catalina-home/conf/logging.properties
+-Dfile.encoding=UTF8
 ```
 
 ![image-20240917091911208](./Tomcat架构及源码解析.assets\image-20240917091911208.png)

@@ -24,6 +24,10 @@ import org.apache.tomcat.util.net.SocketEvent;
  *
  * @author Remy Maucherat
  * @see ProtocolHandler
+ *
+ * @apiNote Adapter 接口用于连接 Connector 和 Servlet 容器，起到承上启下作用。
+ * 它负责将 Processor 产生的 Request 和 Response 对象适配为 Servlet 规范支持的 ServletRequest 和 ServletResponse，
+ * 并交由 Servlet 容器进行后面的处理。
  */
 public interface Adapter {
 

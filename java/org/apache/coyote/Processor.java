@@ -26,6 +26,8 @@ import org.apache.tomcat.util.net.SocketWrapperBase;
 
 /**
  * Common interface for processors of all protocols.
+ *
+ * @apiNote 在 EndPoint 接收到连接后，Processor 负责读取请求数据并将其转换为 Request 和 Response 对象。
  */
 public interface Processor {
 

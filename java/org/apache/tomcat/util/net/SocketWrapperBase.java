@@ -104,8 +104,7 @@ public abstract class SocketWrapperBase<E> {
     protected volatile OperationState<?> writeOperation = null;
 
     /**
-     * The org.apache.coyote.Processor instance currently associated
-     * with the wrapper.
+     * The org.apache.coyote.Processor instance currently associated with the wrapper.
      */
     protected Object currentProcessor = null;
 

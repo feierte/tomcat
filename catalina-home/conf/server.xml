@@ -91,6 +91,11 @@
          port：端口号，Connector 用于创建服务端 Socket 并进行监听，以等待客户端请求连接。
               如果该属性设置为 0，Tomcat 将会随机选择一个可用的端口号给当前 Connector 使用。
          protocol：当前 Connector 支持的访问协议。默认为 HTTP/1.1，并采用自动切换机制选择一个基于 JAVA NIO 的链接器或者基于本地 APR 的链接器（根据本地是否含有Tomcat的本地库判定）。
+         maxThreads：最大工作线程数，决定了可以同时处理的最大请求数。每一次 Http 请求到达 Web 服务，Tomcat 都会创建一个线程来处理该请求，最大线程数决定了 Web 服务同时可以处理多少请求。
+                    注意增加线程是有成本的，更多的线程代表会有更多的上下文切换，也意味着 JVM 会分配更多的内存。
+         minSpareThreads：线程池中活跃线程数，也就是核心线程数，这些线程不会被销毁，会一直存在。建议配置合适的值，防止流量激增。
+         acceptCount：在所有工作线程都在忙碌时，可以排队等待的请求数。即 ServerSocketChannel 的 backlog 参数。
+         maxConnections：Tomcat 可以同时打开的连接总数
          connectionTimeOut : Connector 接收链接后的等待超时时间，单位为 毫秒。-1 表示不超时。
          redirectPort：当前 Connector 不支持 SSL 请求，接收到了一个请求，并且也符合 security-constraint 约束，需要 SSL 传输，Catalina 自动将请求重定向到指定的端口。
          executor： 指定共享线程池的名称，也可以通过 maxThreads、minSpareThreads 等属性配置内部线程池。

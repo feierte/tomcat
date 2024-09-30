@@ -61,6 +61,11 @@ import org.apache.tomcat.util.threads.ThreadPoolExecutor;
  *
  * @author Mladen Turk
  * @author Remy Maucherat
+ *
+ * @apiNote 负责底层的 Socket 通信，创建 ServerSocketChannel 监听线程，接收 TCP 连接，然后处理 TCP 连接的接收和数据的读写。
+ * 很多博客上面写的 EndPoint 组件指的就是这个抽象类。
+ * <p>更直白的解释，Endpoint 就是 Tomcat 对外的窗口，外部可以直接访问 Endpoint 来和 Tomcat 交互。
+ * Endpoint 有不同的实现类，每个实现类用于处理不同的协议。
  */
 public abstract class AbstractEndpoint<S,U> {
 
@@ -184,6 +189,8 @@ public abstract class AbstractEndpoint<S,U> {
 
     /**
      * counter for nr of connections handled by an endpoint
+     *
+     * LimitLatch 是连接控制器，它负责维护连接数的计算，nio 模式下默认是 10000，达到这个阈值后，就会拒绝连接请求。
      */
     private volatile LimitLatch connectionLimitLatch = null;
 
@@ -1116,9 +1123,11 @@ public abstract class AbstractEndpoint<S,U> {
                 return false;
             }
             SocketProcessorBase<S> sc = null;
+            // 如果 processorCache 不为空，从里面拿一个 SocketProcessor
             if (processorCache != null) {
                 sc = processorCache.pop();
             }
+            // 如果还为 null，则创建一个 SocketProcessor
             if (sc == null) {
                 sc = createSocketProcessor(socketWrapper, event);
             } else {
@@ -1126,8 +1135,10 @@ public abstract class AbstractEndpoint<S,U> {
             }
             Executor executor = getExecutor();
             if (dispatch && executor != null) {
+                // 将 SocketProcessor 交由线程池进行任务的处理
                 executor.execute(sc);
             } else {
+                // 由当前线程执行 SocketProcessor 任务
                 sc.run();
             }
         } catch (RejectedExecutionException ree) {

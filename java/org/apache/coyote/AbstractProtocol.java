@@ -590,10 +590,12 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                     getHandler().getGlobal(), rgOname, null);
         }
 
+        // 设置 endpoint 的名字，默认为：http-nio-{port}
         String endpointName = getName();
         endpoint.setName(endpointName.substring(1, endpointName.length()-1));
         endpoint.setDomain(domain);
 
+        // 初始化 endpoint
         endpoint.init();
     }
 
@@ -884,6 +886,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
                 SocketState state = SocketState.CLOSED;
                 do {
+                    // 核心代码
                     state = processor.process(wrapper, status);
 
                     if (state == SocketState.UPGRADING) {
