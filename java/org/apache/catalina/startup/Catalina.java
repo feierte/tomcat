@@ -436,10 +436,13 @@ public class Catalina {
                             "addExecutor",
                             "org.apache.catalina.Executor");
 
+        // 解析 <connector> 标签并实例化 Connector 对象
         digester.addRule("Server/Service/Connector",
                          new ConnectorCreateRule());
+        // 设置 Connector 的属性
         digester.addSetProperties("Server/Service/Connector",
                 new String[]{"executor", "sslImplementationName", "protocol"});
+        // 通过 Service 的 addConnector 方法将 Connector 对象设置到 Service 的 connectors 数组中
         digester.addSetNext("Server/Service/Connector",
                             "addConnector",
                             "org.apache.catalina.connector.Connector");

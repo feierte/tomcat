@@ -193,7 +193,23 @@ pom.xml文件内容如下（文件中的tomcat版本相关信息可以自定义�
 
 
 
-# Tomcat请求处理流程
+# Tomcat网络模型
+
+
+
+​	在Tomcat中，`AbstractEndpoint（endpoint）`和`ProtocolHandler`是两个核心组件，它们共同协作来处理网络请求。
+
+​	`AbstractEndpoint`是一个抽象类，它提供了底层网络I/O的功能。它的职责包括监听网络连接、接受客户端的连接请求，并为每个连接请求创建一个`Processor`来处理请求。  
+
+​	`ProtocolHandler`是一个接口，它的实现类负责处理网络连接和应用层协议。它包含了两个重要的组件：`endpoint`和`processor`。`endpoint`是通信端点，负责具体的socket接受和发送处理，是对传输层的抽象。而`processor`接受来自`endpoint`的socket，读取字节流解析成Tomcat的request和response对象，并通过adapter将其提交到容器处理，processor是对应用层协议的抽象 。
+
+​	总结来说，`AbstractEndpoint`负责处理网络层面的连接，而`ProtocolHandler`则负责处理应用层的协议。它们之间的关系是：**`ProtocolHandler`通过`endpoint`来处理网络连接，并通过`processor`来处理应用层的协议**。这种设计使得Tomcat可以灵活地处理不同类型的网络协议和通信方式。 
+
+
+
+## 请求处理流程
+
+
 
 
 

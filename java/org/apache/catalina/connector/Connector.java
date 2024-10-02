@@ -83,6 +83,7 @@ public class Connector extends LifecycleMBeanBase  {
         boolean apr = AprStatus.isAprAvailable() &&
             AprStatus.getUseAprConnector();
         ProtocolHandler p = null;
+        // 创建 ProtocolHandler 对象
         try {
             p = ProtocolHandler.create(protocol, apr);
         } catch (Exception e) {

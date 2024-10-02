@@ -73,6 +73,10 @@ public abstract class AbstractEndpoint<S,U> {
 
     protected static final StringManager sm = StringManager.getManager(AbstractEndpoint.class);
 
+    /**
+     * 负责处理 Endpoint 接收到的 Socket 请求
+     * @param <S>
+     */
     public static interface Handler<S> {
 
         /**
@@ -1188,6 +1192,7 @@ public abstract class AbstractEndpoint<S,U> {
 
 
     public final void init() throws Exception {
+        // 判断是否应该在 init() 方法里面进行端口绑定，如果 false 的话，会在 start() 方法里面进行端口绑定。
         if (bindOnInit) {
             bindWithCleanup();
             bindState = BindState.BOUND_ON_INIT;
