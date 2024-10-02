@@ -10,14 +10,88 @@
     </context-param>
 
 
+    <!-- Servlet 配置 -->
     <servlet>
         <servlet-name>demoServlet</servlet-name>
         <servlet-class>org.example.tomcatdemo.servlet.DemoServlet</servlet-class>
+        <!-- Servlet 初始化的参数，该配置只针对当前 Servlet 有效 -->
+        <init-param>
+            <param-name>param1</param-name>
+            <param-value>value1</param-value>
+        </init-param>
+        <!-- Servlet 启动顺序，值越小，启动优先级越高
+            注意，值小于 0，tomcat 启动时不加载该 servlet，在第一次访问才加载
+            >=0 时，tomcat 启动时就加载该 servlet
+         -->
+        <load-on-startup>1</load-on-startup>
+        <!-- false 表示不启用，即该 Servlet 不处理任何请求 -->
+        <enabled>true</enabled>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>demoServlet</servlet-name>
+        <!-- servlet 的请求路径，支持配置多个 -->
         <url-pattern>/demo</url-pattern>
     </servlet-mapping>
 
+    <!-- 监听器配置，用于监听 Servlet 中的事件，例如：context、request、response 对象的创建、修改和删除。
+        监听器执行顺序和定义顺序一致，销毁时和定义顺序相反
+     -->
+<!--    <listener>-->
+<!--        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+<!--    </listener>-->
+
+    <!-- 过滤器配置 -->
+    <filter>
+        <filter-name>filter01</filter-name>
+        <filter-class>org.example.tomcatdemo.filter.DemoFilter</filter-class>
+        <!-- 是否支持异步 -->
+        <async-supported>true</async-supported>
+        <!-- filter 初始化参数，只对当前 filter 有效 -->
+        <init-param>
+            <param-name>param1</param-name>
+            <param-value>value1</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter01</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
+
+
+    <!-- 会话管理相关配置 -->
+    <session-config>
+        <!-- 会话的超时时间 -->
+        <session-timeout>30</session-timeout>
+        <!-- cookie 配置信息 -->
+        <cookie-config>
+            <!-- cookie 名称，默认值为 JSESSIONID，也可以配置为其他值 -->
+            <name>JSESSIONID</name>
+            <domain>localhost</domain>
+            <path>/</path>
+            <!-- 表示这个 cookie 对象只能通过 http 请求携带到服务器端，
+                 不能通过 js 获取或修改，此项可以增加网站的安全性
+            -->
+            <http-only>true</http-only>
+            <!-- cookie 安全性配置，如果为 true，只有 https 的请求才能携带 cookie -->
+            <secure>false</secure>
+            <!-- cookie 的过期时间，单位为秒，默认值为 -1，表示浏览器关闭 cookie 才过期 -->
+            <max-age>3600</max-age>
+        </cookie-config>
+        <!-- 用于配置会话追踪模式（即实现会话的方式），Servlet 3.0之后支持 COOKIE、URL、SSL -->
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- 欢迎页面，支持配置多个，按顺序查找，找到就显示，如果都没有就 404 -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- 错误页面配置 -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.html</location>
+    </error-page>
 </web-app>

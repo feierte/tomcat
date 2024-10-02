@@ -22,6 +22,8 @@ import java.util.Set;
 /**
  * Common interface for the registration of Filters and Servlets.
  * @since Servlet 3.0
+ *
+ * @apiNote 通用接口，用于管理 Filter 和 Servlet，并提供一些公共方法。
  */
 public interface Registration {
 

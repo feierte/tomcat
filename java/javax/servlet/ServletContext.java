@@ -626,6 +626,8 @@ public interface ServletContext {
      *    {@link ServletContextListener} defined in a TLD would not be able to
      *    use this method.
      * @since Servlet 3.0
+     *
+     * @apiNote 向 web 应用添加 Servlet，该方法允许你在运行时动态地添加一个新的 Servlet。
      */
     public ServletRegistration.Dynamic addServlet(String servletName,
             Class<? extends Servlet> servletClass);

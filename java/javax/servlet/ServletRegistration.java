@@ -23,6 +23,15 @@ import java.util.Set;
  * Interface through which a Servlet may be further configured.
  *
  * @since Servlet 3.0
+ *
+ * @apiNote ServletRegistration 代表了对一个 Servlet 的定义和它的初始化参数。
+ * 向 Servlet 容器动态添加 Servlet时，会返回 ServletRegistration 对象引用，通过该对象引用可以获取 Servlet 的名称、类名、初始化参数以及它所对应的 URL 模式（URL patterns）。
+ * 通过这个方式就相当于这个接口提供了一种方式来注册和管理 Servlet，不要理解为了容器（可以注册多个 Servlet 的容器），类似与持有 Servlet 对象引用的句柄。
+ *
+ * <p>ServletRegistration 的主要作用包括：
+ *  1.获取 Servlet 的基本信息：可以通过 ServletRegistration 获取到 Servlet 的名字、类名等信息。
+ *  2.获取和设置初始化参数：可以获取 Servlet 的初始化参数，也可以添加或修改这些参数。
+ *  3.设置 Servlet 的 URL 映射：可以设置或获取 Servlet 的 URL 映射模式，也就是哪些 URL 请求会由这个 Servlet 来处理。
  */
 public interface ServletRegistration extends Registration {
 
