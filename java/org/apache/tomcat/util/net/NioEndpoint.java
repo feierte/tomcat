@@ -238,6 +238,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
      */
     @Override
     public void bind() throws Exception {
+        // 初始化 ServerSocket（用的是 ServerSocketChannel），负责接收外部的网络请求（一般是 http 或 https）。
         initServerSocket();
 
         setStopLatch(new CountDownLatch(1));
@@ -283,6 +284,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             InetSocketAddress addr = new InetSocketAddress(getAddress(), getPortWithOffset());
             serverSock.bind(addr, getAcceptCount());
         }
+        // 从这里可以看出来用于接收 Socket 请求的 ServerSocket 是阻塞的
         serverSock.configureBlocking(true); //mimic APR behavior
     }
 
@@ -311,6 +313,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             }
 
             // Create worker collection
+            // 如果 server.xml 中没有设置 Executor，那么这里创建一个新的 Executor。
             if (getExecutor() == null) {
                 createExecutor();
             }
@@ -519,6 +522,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             socketWrapper.setReadTimeout(getConnectionTimeout());
             socketWrapper.setWriteTimeout(getConnectionTimeout());
             socketWrapper.setKeepAliveLeft(NioEndpoint.this.getMaxKeepAliveRequests());
+            // 注册到 Poller 线程中，也就是注册到 Selector
             poller.register(socketWrapper);
             return true;
         } catch (Throwable t) {
@@ -629,6 +633,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
         private final SynchronizedQueue<PollerEvent> events =
                 new SynchronizedQueue<>();
 
+        // Poller 线程状态，true 关闭，结束线程；false 运行
         private volatile boolean close = false;
         // Optimize expiration handling
         private long nextExpiration = 0;
@@ -658,6 +663,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
 
         private void addEvent(PollerEvent event) {
             events.offer(event);
+            // 新的事件添加进来需要唤醒 Selector
             // todo: 这里的判断什么意思？
             if (wakeupCounter.incrementAndGet() == 0) {
                 selector.wakeup();
@@ -756,7 +762,9 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
          * @param socketWrapper The socket wrapper
          */
         public void register(final NioSocketWrapper socketWrapper) {
+            // 向 SocketChannel 添加感兴趣的读事件，因为外部发起 http 请求时会携带数据，所以先注册读事件，读取 http 请求。
             socketWrapper.interestOps(SelectionKey.OP_READ);//this is what OP_REGISTER turns into.
+            // 将 SocketChannel 封装为 PollerEvent
             PollerEvent event = null;
             if (eventCache != null) {
                 event = eventCache.pop();
@@ -766,6 +774,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             } else {
                 event.reset(socketWrapper, OP_REGISTER);
             }
+            // 添加到 Poller 中的事件队列中
             addEvent(event);
         }
 
@@ -807,6 +816,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                     if (!close) {
                         hasEvents = events();
                         // todo：这里的判断是啥意思？
+                        // 条件为真时，说明当前事件队列不为空，需要立即进行 select 操作，查看是否有相应事件发生。
                         if (wakeupCounter.getAndSet(-1) > 0) {
                             // If we are here, means we have other stuff to do
                             // Do a non blocking select
@@ -1664,6 +1674,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
              * connections.
              */
             Poller poller = NioEndpoint.this.poller;
+            // poller 线程关闭了，不需要在处理 socket 事件了
             if (poller == null) {
                 socketWrapper.close();
                 return;

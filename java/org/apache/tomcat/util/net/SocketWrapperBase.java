@@ -36,8 +36,10 @@ import org.apache.tomcat.util.ExceptionUtils;
 import org.apache.tomcat.util.res.StringManager;
 
 /**
- * Socket 的封装，
- * @param <E>
+ * Socket 的封装，用于封装不同类型的 socket。它的作用是为不同的协议（如 HTTP、AJP）和传输方式（如 NIO、BIO）提供一个统一的处理接口。
+ * 总的来说，SocketWrapperBase 是 Tomcat 中一个关键的抽象类，它为不同类型的 socket 提供了一个统一的处理方式，使得 Tomcat 能够以统一的接口
+ * 处理各种网络协议和传输方式。
+ * @param <E> 底层的 Socket 类型，可能是 Socket、SocketChannel 或者其他 Socket。
  */
 public abstract class SocketWrapperBase<E> {
 
@@ -464,6 +466,8 @@ public abstract class SocketWrapperBase<E> {
      * @param len   The length of the data to be written
      *
      * @throws IOException If an IO error occurs during the write
+     *
+     * @apiNote 将字节数组中的数据写入到 Socket 写缓冲区中，
      */
     public final void write(boolean block, byte[] buf, int off, int len) throws IOException {
         if (len == 0 || buf == null) {

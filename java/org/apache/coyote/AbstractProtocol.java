@@ -79,10 +79,13 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
      * Endpoint that provides low-level network I/O - must be matched to the
      * ProtocolHandler implementation (ProtocolHandler using NIO, requires NIO
      * Endpoint etc.).
+     *
+     * @apiNote 持有 endpoint 的对象引用，能够有处理网络请求能力（通过 endpoint 提供的 Socket 连接能力）。
+     * ProtocolHandler 和 endpoint 是一一对应的，比如 ProtocolHandler 是具有处理 NIO 的能力，那么 endpoint 也要使用具有 NIO 能力的实现。
      */
     private final AbstractEndpoint<S,?> endpoint;
 
-
+    // AbstractEndpoint 内定以的静态内部类，用于处理 endpoint 接收到的 socket 连接。
     private Handler<S> handler;
 
 

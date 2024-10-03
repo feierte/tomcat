@@ -28,9 +28,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Thread safe non blocking selector pool
+ *
+ * @apiNote 非阻塞的 Selector 池。当处理 I/O 操作时，Tomcat 会从池中获取一个 Selector，然后由工作线程（Worker Thread）
+ * 执行非阻塞的 I/O 操作。这种设计允许 Tomcat 在处理大量并发连接时，减少 Selector 创建和关闭的开销，同时提高了资源利用率和性能。
+ *
+ * <p>此外，Tomcat 还使用了一种称为“阻塞策略”（Blocking Strategy）的机制，该机制允许在 Selector 等待 I/O 事件时，将线程放入阻塞状态，
+ * 从而减少 CPU 的空转。当有 I/O 事件准备就绪时，Selector 会唤醒等待的线程，继续处理 I/O 事件。
+ *
+ * <p>为什么 Selector 也需要池化？，创建 Selector 很耗时吗？</p>
+ *  1.复用，可以减少创建和销毁的次数，从而降低系统资源的消耗。
+ *  2.负载均衡，通过池化，Selector 的使用可以在多个请求之间更加均衡，避免某些 Selector 过载而其他 Selector 空闲的情况。
+ *  3.提升响应速度，池化的 Selector 可以快速响应网络事件，因为它已经初始化并准备好使用，不需要等待系统创建新的 Selector。
  */
 public class NioSelectorPool {
 
+    /**
+     * 阻塞的 Selector，
+     */
     protected NioBlockingSelector blockingSelector;
 
     protected volatile Selector sharedSelector;

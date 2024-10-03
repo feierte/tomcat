@@ -173,6 +173,8 @@ public abstract class AbstractProcessorLight implements Processor {
      *
      * @throws IOException If an I/O error occurs during the processing of the
      *         request
+     *
+     * @apiNote 解析原始的 http 请求，该方法有可能接收到的 http 请求消息是不完整的。
      */
     protected abstract SocketState service(SocketWrapperBase<?> socketWrapper) throws IOException;
 

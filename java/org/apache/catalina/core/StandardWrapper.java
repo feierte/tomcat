@@ -183,6 +183,8 @@ public class StandardWrapper extends ContainerBase
 
     /**
      * The fully qualified servlet class name for this servlet.
+     *
+     * @apiNote Servlet 的全限定类名。
      */
     protected String servletClass = null;
 
@@ -190,7 +192,8 @@ public class StandardWrapper extends ContainerBase
     /**
      * Does this servlet implement the SingleThreadModel interface?
      *
-     * @apiNote 代表是单线程模式,是保证一个特定 servlet 实例的 service 方法在一个时刻仅能被一个线程执行,此保证仅适用于每一个 servlet 实例,因此容器可以选择池化这些对象.
+     * @apiNote 代表是单线程模式，是保证一个特定 servlet 实例的 service 方法在一个时刻仅能被一个线程执行，
+     * 此保证仅适用于每一个 servlet 实例，因此容器可以选择池化这些对象。
      */
     protected volatile boolean singleThreadModel = false;
 
