@@ -14,8 +14,6 @@ public class DemoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-
         String context1 = req.getServletContext().getInitParameter("context1");
         System.out.println(context1);
     }
