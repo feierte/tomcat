@@ -76,7 +76,12 @@ import org.apache.juli.logging.Log;
  * @author Craig R. McClanahan
  * @author Remy Maucherat
  *
- * @apiNote Container表示部署在Tomcat中的一个web应用的容器。
+ * @apiNote Container 表示容器类，抽取容器类具有的共性功能，Engine、Host、Context、Wrapper 等都是容器。
+ * <p>Container 类抽取了这些容器的共性方法，并赋予了容器的额外功：</p>
+ *  1.管理子容器：Container 类可以添加、移除和查找子容器
+ *  2.管理生命周期：Container 类定义了启动、停止等方法，子类可以实现这些方法来管理自己的生命周期。
+ *  3.安全控制：Container 类可以控制对资源的访问，例如，它可以决定哪些用户可以访问特定的资源。
+ *  4.处理请求（Pipeline）：虽然 Container 类本身不直接处理请求，但它定义了请求处理的接口，子类可以实现这些接口来处理请求。
  *
  * <p>server.xml中的标签和java类并不是完全一一对应的关系，这里的Container实际上就是将<Engine>、<Host>等标签对应类的共性抽取的父接口。
  */

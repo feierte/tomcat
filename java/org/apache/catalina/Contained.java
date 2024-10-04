@@ -22,6 +22,9 @@ package org.apache.catalina;
  *
  * @author Craig R. McClanahan
  * @author Peter Donald
+ *
+ * @apiNote 需要获取容器的类可以实现该接口，该接口与容器类进行了解耦。实现了该接口的类可以对容器扩展，添加额外功能。
+ * 这种设计模式之前没见过，类似与组合模式。
  */
 public interface Contained {
 

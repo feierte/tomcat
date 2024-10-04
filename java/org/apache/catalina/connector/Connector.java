@@ -115,6 +115,9 @@ public class Connector extends LifecycleMBeanBase  {
 
     /**
      * The <code>Service</code> we are associated with (if any).
+     *
+     * @apiNote 我们知道一个 Service 可以有一个或者多个 Connector，这个变量就是记录当前 Connector 是属于哪个 Service 的。
+     * <p>通过该变量能够将 request 和 response 传递给 Service 中的 Engine，这是很重要的。<p/>
      */
     protected Service service = null;
 
